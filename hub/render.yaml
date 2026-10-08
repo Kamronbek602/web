@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: minimal-hub
+    runtime: python
+    plan: starter            # Persistent disk uchun pullik reja kerak
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false           # Render dashboardda o'zingiz kiritasiz
+      - key: ADMIN_PATH
+        value: my-secret-door # O'zgartiring: /my-secret-door
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: hub-data
+      mountPath: /var/data
+      sizeGB: 1

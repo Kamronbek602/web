@@ -1,0 +1,33 @@
+html { scroll-behavior: smooth; }
+
+.btn { position: relative; overflow: hidden; transition: transform .15s ease, background-color .2s ease; -webkit-tap-highlight-color: transparent; }
+.btn:active { transform: scale(.95); }
+.ripple { position: absolute; border-radius: 9999px; background: rgba(255,255,255,.45); transform: scale(0); animation: ripple .6s ease-out; pointer-events: none; }
+.dark .ripple, .like-btn .ripple { background: rgba(120,120,120,.3); }
+@keyframes ripple { to { transform: scale(4); opacity: 0; } }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+.like-btn .heart { color: #a8a29e; transition: color .2s; display: inline-block; }
+.like-btn.liked .heart { color: #ef4444; }
+.like-btn.liked { border-color: #fca5a5; }
+.like-btn.pop .heart { animation: pop .5s ease; }
+@keyframes pop { 0% { transform: scale(1); } 30% { transform: scale(1.6); filter: drop-shadow(0 0 6px #ef4444); } 60% { transform: scale(.9); } 100% { transform: scale(1); } }
+.like-count.bump { animation: bump .35s ease; }
+@keyframes bump { 0% { transform: translateY(6px); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+#lightbox.open { display: flex; animation: fade .25s ease; }
+#lightbox.open img { animation: zoom .3s ease; }
+@keyframes fade { from { opacity: 0; } }
+@keyframes zoom { from { transform: scale(.9); opacity: 0; } }
+
+.rt-wait { background: #57534e; }
+.rt-ready { background: #dc2626; }
+.rt-go { background: #16a34a; }
+#rt-pad { transition: background-color .15s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; opacity: 1; transform: none; }
+  * { animation-duration: .01ms !important; }
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Hub{% endblock %}</title>
+  <script>
+    try {
+      const t = localStorage.getItem('theme');
+      if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    } catch (e) {}
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] } } } }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-stone-50 text-stone-800 dark:bg-neutral-950 dark:text-stone-200 font-sans antialiased transition-colors duration-300">
+  <header class="sticky top-0 z-30 backdrop-blur bg-stone-50/80 dark:bg-neutral-950/80 border-b border-stone-200 dark:border-neutral-800">
+    <div class="max-w-2xl mx-auto px-4 h-14 flex items-center justify-between">
+      <a href="{{ url_for('index') }}" class="font-semibold tracking-tight">Hub</a>
+      <nav class="flex items-center gap-1 text-sm">
+        <a href="{{ url_for('index') }}" class="btn px-3 py-1.5 rounded-lg hover:bg-stone-200/70 dark:hover:bg-neutral-800">Postlar</a>
+        <a href="{{ url_for('games') }}" class="btn px-3 py-1.5 rounded-lg hover:bg-stone-200/70 dark:hover:bg-neutral-800">O'yinlar</a>
+        <button id="theme-toggle" class="btn px-3 py-1.5 rounded-lg hover:bg-stone-200/70 dark:hover:bg-neutral-800" aria-label="Mavzuni almashtirish">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main class="max-w-2xl mx-auto px-4 py-8">
+    {% with msgs = get_flashed_messages() %}
+      {% for m in msgs %}<div class="mb-4 rounded-xl border border-stone-200 dark:border-neutral-800 px-4 py-3 text-sm">{{ m }}</div>{% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <div id="lightbox" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4 cursor-zoom-out">
+    <img id="lightbox-img" alt="" class="max-h-full max-w-full rounded-xl shadow-2xl">
+  </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
